@@ -1,27 +1,24 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { notFound, useParams } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { projects } from '@/data/projects';
-import ProjectViewer from '@/components/ProjectViewer';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 
-export default function ProjectPage() {
-  const params = useParams();
-  const projectId = params.id as string;
-  const [project, setProject] = useState<typeof projects[0] | undefined>(undefined);
-  
-  useEffect(() => {
-    const foundProject = projects.find((p) => p.id === projectId);
-    setProject(foundProject);
-    
-    if (!foundProject) {
-      notFound();
-    }
-  }, [projectId]);
+// 动态导入客户端组件
+const ProjectViewer = dynamic(() => import('@/components/ProjectViewer'), { ssr: false });
+
+// 生成静态路径参数
+export function generateStaticParams() {
+  return projects.map((project) => ({
+    id: project.id,
+  }));
+}
+
+export default function ProjectPage({ params }: { params: { id: string } }) {
+  const projectId = params.id;
+  const project = projects.find((p) => p.id === projectId);
   
   if (!project) {
-    return <div className="container mx-auto px-4 py-8">加载中...</div>;
+    return notFound();
   }
 
   // 获取iframe嵌入代码的URL
