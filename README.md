@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Projects Viewer
 
-## Getting Started
+这是一个用于展示HTML游戏和应用的项目查看器，支持iframe嵌入和全屏模式。
 
-First, run the development server:
+## 功能
+
+- 项目列表展示
+- 项目详情查看
+- 通过iframe嵌入外部HTML应用
+- 支持全屏模式体验
+- 响应式设计
+
+## 技术栈
+
+- Next.js 14
+- React 18
+- TypeScript
+- Tailwind CSS
+
+## 开始使用
+
+1. 克隆项目
+
+```bash
+git clone https://github.com/yourusername/projects-viewer.git
+cd projects-viewer
+```
+
+2. 安装依赖
+
+```bash
+npm install
+```
+
+3. 运行开发服务器
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+打开 [http://localhost:3000](http://localhost:3000) 查看应用。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 项目结构
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/app/` - Next.js应用页面
+- `src/components/` - React组件
+- `src/data/` - 示例项目数据
+- `src/types/` - TypeScript类型定义
 
-## Learn More
+## 添加新项目
 
-To learn more about Next.js, take a look at the following resources:
+编辑 `src/data/projects.ts` 文件，添加新的项目对象到数组中：
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```typescript
+{
+  id: '6',
+  title: '新项目',
+  description: '项目描述',
+  thumbnail: '项目缩略图URL',
+  url: '项目URL',
+  tags: ['标签1', '标签2'],
+  author: '作者',
+  createdAt: '创建日期',
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 许可证
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT

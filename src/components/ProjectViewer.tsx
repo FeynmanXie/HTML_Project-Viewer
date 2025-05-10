@@ -10,6 +10,7 @@ interface ProjectViewerProps {
 const ProjectViewer: React.FC<ProjectViewerProps> = ({ projectUrl, title }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -36,8 +37,27 @@ const ProjectViewer: React.FC<ProjectViewerProps> = ({ projectUrl, title }) => {
     };
   }, []);
 
+  // 计算容器高度，保持16:9比例 (1920x1080)
+  useEffect(() => {
+    const updateContainerHeight = () => {
+      if (containerRef.current) {
+        const width = containerRef.current.clientWidth;
+        // 保持16:9的比例
+        const height = width * (9/16);
+        containerRef.current.style.height = `${height}px`;
+      }
+    };
+
+    updateContainerHeight();
+    window.addEventListener('resize', updateContainerHeight);
+    
+    return () => {
+      window.removeEventListener('resize', updateContainerHeight);
+    };
+  }, []);
+
   return (
-    <div className="flex flex-col w-full h-full bg-gray-50 rounded-lg overflow-hidden">
+    <div className="flex flex-col w-full bg-gray-50 rounded-lg overflow-hidden">
       <div className="flex justify-between items-center p-4 bg-gray-100 border-b">
         <h2 className="text-lg font-semibold">{title}</h2>
         <div className="flex gap-2">
@@ -49,7 +69,10 @@ const ProjectViewer: React.FC<ProjectViewerProps> = ({ projectUrl, title }) => {
           </button>
         </div>
       </div>
-      <div className="flex-1 relative w-full h-full min-h-[500px]">
+      <div 
+        ref={containerRef} 
+        className="relative w-full overflow-hidden"
+      >
         <iframe
           ref={iframeRef}
           src={projectUrl}
